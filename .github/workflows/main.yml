@@ -1,4 +1,4 @@
-name: example-workflow
+name: Terraform deploy
 
 on: workflow_dispatch
 
@@ -25,3 +25,25 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+     # Terraform installieren
+    - name: Install Terraform
+      run: |
+       curl -LO https://raw.githubusercontent.com/hashicorp/setup-terraform/main/scripts/install.sh
+       chmod +x install.sh
+       ./install.sh
+
+  
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Fmt check
+      run: terraform fmt --check
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Validate
+      run: terraform validate
+  
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
