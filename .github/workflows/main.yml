@@ -28,11 +28,11 @@ jobs:
      # Terraform installieren
     - name: Install Terraform
       run: |
-       curl -LO https://raw.githubusercontent.com/hashicorp/setup-terraform/main/scripts/install.sh
-       chmod +x install.sh
-       ./install.sh
+          curl -LO "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version)/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version)_linux_amd64.zip"
+          unzip terraform_*_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform version
 
-  
     - name: Terraform Init
       run: terraform init
 
